@@ -1,11 +1,13 @@
 package org.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
+import java.util.List;
+
 
 @Entity
 public class Post {
@@ -17,7 +19,9 @@ public class Post {
     private Date datePosted;
 
     @ManyToOne
+    @JoinColumn(name = "user_id")
     private User author;
+
 
     // Getter och setter för fälten
 
