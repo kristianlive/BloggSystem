@@ -1,18 +1,25 @@
 package org.example.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.List;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
+import java.util.List;
 
+
+@Entity
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-
     private Long id;
     private String username;
     private String password;
     private String email;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<Post> posts;
 
     // Getter och setter för fälten
 
@@ -48,3 +55,4 @@ public class User {
         this.email = email;
     }
 }
+
