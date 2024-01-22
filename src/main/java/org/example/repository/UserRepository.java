@@ -4,6 +4,8 @@ import org.example.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Lägg till anpassade metodsignaturer om det behövs
+
+    User findByEmail(String email);
+    User findByUsername(String username);
 }
 
