@@ -1,15 +1,11 @@
 package org.example.model;
 
-import javax.persistence.*;
-import java.util.List;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
-import java.util.List;
+import jakarta.persistence.*;
 
+import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
