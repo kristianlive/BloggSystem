@@ -1,12 +1,8 @@
 package org.example.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.Date;
-import javax.persistence.OneToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-import javax.persistence.CascadeType;
-import java.util.List;
 
 
 @Entity
@@ -22,8 +18,6 @@ public class Post {
     @JoinColumn(name = "user_id")
     private User author;
 
-
-    // Getter och setter för fälten
 
     public Long getId() {
         return id;
