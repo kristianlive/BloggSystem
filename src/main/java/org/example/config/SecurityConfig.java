@@ -15,6 +15,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.web.servlet.function.RequestPredicates.headers;
 
 @Configuration
 @EnableWebSecurity
@@ -30,13 +31,13 @@ public class SecurityConfig {
 
         AntPathRequestMatcher h2ConsoleMatcher = new AntPathRequestMatcher("/h2-console/**");
 
-        http.csrf(csrf -> csrf
-                        .ignoringRequestMatchers(h2ConsoleMatcher))
+        http.csrf(csrf -> csrf.disable())
                 .authorizeRequests(auth -> auth
                         .requestMatchers(apiMatcher).permitAll()
                         .requestMatchers(h2ConsoleMatcher).permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+            .headers().frameOptions().disable();
 
 
         return http.build();

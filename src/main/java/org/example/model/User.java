@@ -1,14 +1,22 @@
 package org.example.model;
 
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 
 @Entity
 @Table(name = "users")
 public class User {
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    private Long id;
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_generator")
+    @SequenceGenerator(name = "user_seq_generator", sequenceName = "users_SEQ", allocationSize = 1)
     private Long id;
     private String username;
     private String password;
@@ -17,7 +25,6 @@ public class User {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Post> posts;
 
-    // Getter och setter för fälten
 
     public Long getId() {
         return id;
