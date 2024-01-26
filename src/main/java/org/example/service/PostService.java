@@ -33,6 +33,16 @@ public class PostService {
     }
 
     public Post updatePost(Long id, Post updatedPost) {
-        return updatedPost;
+        return postRepository.findById(id)
+                .map(post -> {
+                    post.setTitle(updatedPost.getTitle());
+                    post.setContent(updatedPost.getContent());
+                    // Uppdatera andra fält som behövs
+                    return postRepository.save(post);
+                })
+                .orElseGet(() -> {
+                    updatedPost.setId(id);
+                    return postRepository.save(updatedPost);
+                });
     }
 }
