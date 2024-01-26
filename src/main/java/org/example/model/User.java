@@ -10,10 +10,6 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    private Long id;
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq_generator")
     @SequenceGenerator(name = "user_seq_generator", sequenceName = "users_SEQ", allocationSize = 1)
