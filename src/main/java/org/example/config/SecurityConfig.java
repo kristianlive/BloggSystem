@@ -13,11 +13,13 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 import static org.springframework.web.servlet.function.RequestPredicates.headers;
 
 @Configuration
@@ -32,27 +34,26 @@ public class SecurityConfig {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired
+    private JwtTokenFilter jwtTokenFilter;
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        MvcRequestMatcher apiMatcher = new MvcRequestMatcher(introspector, "/api/users");
-        apiMatcher.setMethod(HttpMethod.POST);
+        http.addFilterBefore(new JwtTokenFilter(jwtUtil,userDetailService), UsernamePasswordAuthenticationFilter.class);
 
-        AntPathRequestMatcher h2ConsoleMatcher = new AntPathRequestMatcher("/h2-console/**");
 
         http
                 .csrf(csrf -> csrf.disable())
-                .authorizeRequests(auth -> auth
-                        .requestMatchers(apiMatcher).permitAll()
-                        .requestMatchers(h2ConsoleMatcher).permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests((authz) -> authz
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/api/auth/**")).permitAll()
+                        .requestMatchers(antMatcher(HttpMethod.POST, "/api/users")).permitAll()
+                        .requestMatchers(new MvcRequestMatcher(introspector, "/h2-console/**")).permitAll()
+                        .anyRequest().authenticated() // Alla andra förfrågningar kräver autentisering
                 )
                 .headers(headers -> headers.frameOptions().disable())
-                .httpBasic();
-
-        http
-                .userDetailsService(userDetailService)
-                .authenticationManager(getAuthenticationManager(http));
+                .userDetailsService(userDetailService);
 
         return http.build();
     }
