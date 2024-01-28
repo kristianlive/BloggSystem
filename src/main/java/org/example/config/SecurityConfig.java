@@ -45,6 +45,7 @@ public class SecurityConfig {
 
 
         http
+                .cors().and()
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authz) -> authz
                         .requestMatchers(new MvcRequestMatcher(introspector, "/api/auth/**")).permitAll()
