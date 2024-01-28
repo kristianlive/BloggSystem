@@ -24,7 +24,11 @@ function PostsPage() {
             <h1>Alla Inlägg</h1>
             <ul>
                 {posts.map(post => (
-                    <li key={post.id}>{post.title} - {post.content}</li>
+                    <li key={post.id}>
+                        <h2>{post.title}</h2>
+                        <p>{post.content}</p>
+                        <small>Datum: {post.datePosted ? new Date(post.datePosted).toLocaleDateString() : "Okänt datum"}</small>
+                    </li>
                 ))}
             </ul>
         </div>

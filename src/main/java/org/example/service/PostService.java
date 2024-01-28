@@ -5,6 +5,7 @@ import org.example.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -17,6 +18,7 @@ public class PostService {
     }
 
     public Post createPost(Post post) {
+        post.setDatePosted(new Date());
         return postRepository.save(post);
     }
 
@@ -37,11 +39,11 @@ public class PostService {
                 .map(post -> {
                     post.setTitle(updatedPost.getTitle());
                     post.setContent(updatedPost.getContent());
-                    // Uppdatera andra fält som behövs
+                    post.setDatePosted(new Date());
                     return postRepository.save(post);
                 })
                 .orElseGet(() -> {
-                    updatedPost.setId(id);
+                    updatedPost.setDatePosted(new Date());
                     return postRepository.save(updatedPost);
                 });
     }
