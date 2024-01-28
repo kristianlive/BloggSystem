@@ -4,6 +4,7 @@ import Login from "./components/Login";
 import {AuthContext, AuthProvider} from "./context/AuthContext";
 import './App.css';
 import PostsPage from "./components/Postpage";
+import PostDetail from "./components/PostDetail";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/posts" element={<PostsPage />} />
+                <Route path="/posts/:id" element={<PostDetail />} />
                 <Route path="/" element={<div>Startsida</div>} />
             </Routes>
         </Router>

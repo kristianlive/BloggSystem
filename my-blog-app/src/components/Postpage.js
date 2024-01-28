@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+
 
 function PostsPage() {
     const [posts, setPosts] = useState([]);
@@ -37,7 +39,9 @@ function PostsPage() {
             <ul>
                 {filteredPosts.map(post => (
                     <li key={post.id}>
+                        <Link to={`/posts/${post.id}`}>
                         <h2>{post.title}</h2>
+                        </Link>
                         <p>{post.content}</p>
                         <small>Datum: {post.datePosted ? new Date(post.datePosted).toLocaleDateString() : "Okänt datum"}</small>
                     </li>
