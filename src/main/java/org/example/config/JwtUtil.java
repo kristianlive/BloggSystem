@@ -31,35 +31,29 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Ny metod: Validera token
     public Boolean validateToken(String token, UserDetails userDetails) {
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    // Ny metod: Extrahera användarnamn
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Hjälpmetod för att extrahera information från token
     private <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    // Hjälpmetod för att extrahera alla claims
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 
-    // Hjälpmetod för att kontrollera om token är utgången
     public Boolean isTokenExpired(String token) {
         final Date expiration = extractExpiration(token);
         return expiration != null && expiration.before(new Date());
     }
 
-    // Hjälpmetod för att extrahera utgångsdatum
     public Date extractExpiration(String token) {
         Claims claims = extractAllClaims(token);
         return claims != null ? claims.getExpiration() : null;

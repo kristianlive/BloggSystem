@@ -20,8 +20,6 @@ public class AuthenticationController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-        // Plats för att validera användaren
-        // ...
 
         final String jwt = jwtUtil.generateToken(authenticationRequest.getUsername());
         return ResponseEntity.ok(new AuthenticationResponse(jwt));

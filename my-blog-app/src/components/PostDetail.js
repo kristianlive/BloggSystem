@@ -19,7 +19,7 @@ function PostDetail() {
         };
 
         fetchPost();
-    }, [id]); 
+    }, [id]);
 
     if (!post) return <div>Laddar...</div>;
 
